@@ -1,0 +1,267 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Project:</h2>
+C:\Users\Jaden\Documents\STM32学习资料\STM32时钟项目\YT32B1_STM32F103_demo.uvproj
+Project File Date:  02/02/2018
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling main.c...
+User\main.c(26): error:  #247: function "main" has already been defined
+User\main.c:   int main (void){//主程序
+User\main.c:       ^
+User\main.c(27): warning:  #177-D: variable "c" was declared but never referenced
+User\main.c:    u8 c=0x01;
+User\main.c:       ^
+User\main.c: User\main.c: 1 warning, 1 error
+compiling subfunction.c...
+User\subfunction.c(22): warning:  #223-D: function "RTC_Get" declared implicitly
+User\subfunction.c:     if(RTC_Get()==0)
+User\subfunction.c:        ^
+User\subfunction.c(24): error:  #20: identifier "rday" is undefined
+User\subfunction.c:             TM1640_display(0,rday/10);      //天
+User\subfunction.c:                              ^
+User\subfunction.c(26): error:  #20: identifier "rhour" is undefined
+User\subfunction.c:             TM1640_display(2,rhour/10); //时
+User\subfunction.c:                              ^
+User\subfunction.c(28): error:  #20: identifier "rmin" is undefined
+User\subfunction.c:             TM1640_display(4,rmin/10);      //分                                                                                                                                                                                                                                                                                                                                                                    
+User\subfunction.c:                              ^
+User\subfunction.c(30): error:  #20: identifier "rsec" is undefined
+User\subfunction.c:             TM1640_display(6,rsec/10); //秒
+User\subfunction.c:                              ^
+User\subfunction.c: User\subfunction.c: 1 warning, 4 errors
+compiling TM1640.c...
+Target not created
+Build target 'Target 1'
+compiling main.c...
+User\subfunction.h(21): warning:  #1-D: last line of file ends without a newline
+User\subfunction.h:   void Time_display(void);
+User\subfunction.h:                           ^
+User\main.c(27): warning:  #177-D: variable "c" was declared but never referenced
+User\main.c:    u8 c=0x01;
+User\main.c:       ^
+User\main.c: User\main.c: 2 warnings, 0 errors
+compiling subfunction.c...
+User\subfunction.c(20): warning:  #223-D: function "RTC_Get" declared implicitly
+User\subfunction.c:     if(RTC_Get()==0)
+User\subfunction.c:        ^
+User\subfunction.c(22): warning:  #223-D: function "TM1640_display" declared implicitly
+User\subfunction.c:             TM1640_display(0,rday/10);      //天
+User\subfunction.c:             ^
+User\subfunction.c(22): error:  #20: identifier "rday" is undefined
+User\subfunction.c:             TM1640_display(0,rday/10);      //天
+User\subfunction.c:                              ^
+User\subfunction.c(24): error:  #20: identifier "rhour" is undefined
+User\subfunction.c:             TM1640_display(2,rhour/10); //时
+User\subfunction.c:                              ^
+User\subfunction.c(26): error:  #20: identifier "rmin" is undefined
+User\subfunction.c:             TM1640_display(4,rmin/10);      //分                                                                                                                                                                                                                                                                                                                                                                    
+User\subfunction.c:                              ^
+User\subfunction.c(28): error:  #20: identifier "rsec" is undefined
+User\subfunction.c:             TM1640_display(6,rsec/10); //秒
+User\subfunction.c:                              ^
+User\subfunction.c(31): warning:  #223-D: function "delay_ms" declared implicitly
+User\subfunction.c:             delay_ms(125); //延时
+User\subfunction.c:             ^
+User\subfunction.c: User\subfunction.c: 3 warnings, 4 errors
+Target not created
+Build target 'Target 1'
+compiling main.c...
+User\subfunction.h(22): warning:  #1-D: last line of file ends without a newline
+User\subfunction.h:   void Time_display(void);
+User\subfunction.h:                           ^
+User\main.c(27): warning:  #177-D: variable "c" was declared but never referenced
+User\main.c:    u8 c=0x01;
+User\main.c:       ^
+User\main.c: User\main.c: 2 warnings, 0 errors
+compiling subfunction.c...
+User\subfunction.c(20): warning:  #223-D: function "RTC_Get" declared implicitly
+User\subfunction.c:     if(RTC_Get()==0)
+User\subfunction.c:        ^
+User\subfunction.c(22): warning:  #223-D: function "TM1640_display" declared implicitly
+User\subfunction.c:             TM1640_display(0,rday/10);      //天
+User\subfunction.c:             ^
+User\subfunction.c(22): error:  #20: identifier "rday" is undefined
+User\subfunction.c:             TM1640_display(0,rday/10);      //天
+User\subfunction.c:                              ^
+User\subfunction.c(24): error:  #20: identifier "rhour" is undefined
+User\subfunction.c:             TM1640_display(2,rhour/10); //时
+User\subfunction.c:                              ^
+User\subfunction.c(26): error:  #20: identifier "rmin" is undefined
+User\subfunction.c:             TM1640_display(4,rmin/10);      //分                                                                                                                                                                                                                                                                                                                                                                    
+User\subfunction.c:                              ^
+User\subfunction.c(28): error:  #20: identifier "rsec" is undefined
+User\subfunction.c:             TM1640_display(6,rsec/10); //秒
+User\subfunction.c:                              ^
+User\subfunction.c(31): warning:  #223-D: function "delay_ms" declared implicitly
+User\subfunction.c:             delay_ms(125); //延时
+User\subfunction.c:             ^
+User\subfunction.c: User\subfunction.c: 3 warnings, 4 errors
+Target not created
+Build target 'Target 1'
+compiling subfunction.c...
+User\subfunction.h(22): warning:  #1-D: last line of file ends without a newline
+User\subfunction.h:   void Time_display(void);
+User\subfunction.h:                           ^
+User\subfunction.h: User\subfunction.c: 1 warning, 0 errors
+linking...
+Program Size: Code=14130 RO-data=806 RW-data=60 ZI-data=1836  
+FromELF: creating hex file...
+"YT32B1_STM32F103_demo.axf" - 0 Error(s), 1 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+User\subfunction.h(13): error:  #10: "#" not expected here
+User\subfunction.h:   v#endif
+User\subfunction.h:    ^
+User\subfunction.h(13): error:  #77-D: this declaration has no storage class or type specifier
+User\subfunction.h:   v#endif
+User\subfunction.h:   ^
+User\subfunction.h(13): error:  #65: expected a ";"
+User\subfunction.h:   v#endif
+User\subfunction.h:    ^
+User\subfunction.h(1): error:  #37: the #endif for this directive is missing
+User\subfunction.h:   #ifndef __SUBFUNCTION_H
+User\subfunction.h:    ^
+User\main.c(65): warning: At end of source:  #12-D: parsing restarts here after previous syntax error
+User\main.c: User\main.c: 1 warning, 4 errors
+compiling subfunction.c...
+User\subfunction.h(13): error:  #10: "#" not expected here
+User\subfunction.h:   v#endif
+User\subfunction.h:    ^
+User\subfunction.h(13): error:  #77-D: this declaration has no storage class or type specifier
+User\subfunction.h:   v#endif
+User\subfunction.h:   ^
+User\subfunction.h(13): error:  #65: expected a ";"
+User\subfunction.h:   v#endif
+User\subfunction.h:    ^
+User\subfunction.h(1): error:  #37: the #endif for this directive is missing
+User\subfunction.h:   #ifndef __SUBFUNCTION_H
+User\subfunction.h:    ^
+User\subfunction.c(69): warning: At end of source:  #12-D: parsing restarts here after previous syntax error
+User\subfunction.c: User\subfunction.c: 1 warning, 4 errors
+Target not created
+Build target 'Target 1'
+compiling main.c...
+User\main.c(27): warning:  #177-D: variable "c" was declared but never referenced
+User\main.c:    u8 c=0x01;
+User\main.c:       ^
+User\main.c: User\main.c: 1 warning, 0 errors
+compiling subfunction.c...
+linking...
+Program Size: Code=14130 RO-data=806 RW-data=60 ZI-data=1836  
+FromELF: creating hex file...
+"YT32B1_STM32F103_demo.axf" - 0 Error(s), 1 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+Program Size: Code=14130 RO-data=806 RW-data=60 ZI-data=1836  
+FromELF: creating hex file...
+"YT32B1_STM32F103_demo.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling main.c...
+linking...
+Program Size: Code=14354 RO-data=806 RW-data=60 ZI-data=1836  
+FromELF: creating hex file...
+"YT32B1_STM32F103_demo.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling subfunction.c...
+linking...
+Program Size: Code=14582 RO-data=806 RW-data=64 ZI-data=1832  
+FromELF: creating hex file...
+"YT32B1_STM32F103_demo.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling subfunction.c...
+compiling rtc.c...
+linking...
+Program Size: Code=14446 RO-data=806 RW-data=64 ZI-data=1832  
+FromELF: creating hex file...
+"YT32B1_STM32F103_demo.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling subfunction.c...
+User\subfunction.c(46): warning:  #223-D: function "delayms" declared implicitly
+User\subfunction.c:             delayms(100);
+User\subfunction.c:             ^
+User\subfunction.c: User\subfunction.c: 1 warning, 0 errors
+linking...
+YT32B1_STM32F103_demo.axf: Error: L6218E: Undefined symbol delayms (referred from subfunction.o).
+YT32B1_STM32F103_demo.axf: Not enough information to list image symbols.
+YT32B1_STM32F103_demo.axf: Finished: 1 information, 0 warning and 1 error messages.
+Target not created
+Build target 'Target 1'
+compiling subfunction.c...
+linking...
+Program Size: Code=14454 RO-data=806 RW-data=64 ZI-data=1832  
+FromELF: creating hex file...
+"YT32B1_STM32F103_demo.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling subfunction.c...
+linking...
+Program Size: Code=14458 RO-data=806 RW-data=64 ZI-data=1832  
+FromELF: creating hex file...
+"YT32B1_STM32F103_demo.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling subfunction.c...
+linking...
+Program Size: Code=14458 RO-data=806 RW-data=64 ZI-data=1832  
+FromELF: creating hex file...
+"YT32B1_STM32F103_demo.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling subfunction.c...
+linking...
+Program Size: Code=14486 RO-data=806 RW-data=64 ZI-data=1832  
+FromELF: creating hex file...
+"YT32B1_STM32F103_demo.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling subfunction.c...
+linking...
+Program Size: Code=14494 RO-data=806 RW-data=64 ZI-data=1832  
+FromELF: creating hex file...
+"YT32B1_STM32F103_demo.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling subfunction.c...
+linking...
+Program Size: Code=14442 RO-data=806 RW-data=64 ZI-data=1832  
+FromELF: creating hex file...
+"YT32B1_STM32F103_demo.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling subfunction.c...
+linking...
+Program Size: Code=14526 RO-data=806 RW-data=64 ZI-data=1832  
+FromELF: creating hex file...
+"YT32B1_STM32F103_demo.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling subfunction.c...
+linking...
+Program Size: Code=14546 RO-data=806 RW-data=64 ZI-data=1832  
+FromELF: creating hex file...
+"YT32B1_STM32F103_demo.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling subfunction.c...
+compiling TM1640.c...
+Hardware\TM1640\TM1640.c(109): error:  #169: expected a declaration
+Hardware\TM1640\TM1640.c:   0100 0000
+Hardware\TM1640\TM1640.c:   ^
+Hardware\TM1640\TM1640.c(136): warning: At end of source:  #12-D: parsing restarts here after previous syntax error
+Hardware\TM1640\TM1640.c: Hardware\TM1640\TM1640.c: 1 warning, 1 error
+Target not created
+Build target 'Target 1'
+compiling TM1640.c...
+linking...
+Program Size: Code=14570 RO-data=806 RW-data=64 ZI-data=1832  
+FromELF: creating hex file...
+"YT32B1_STM32F103_demo.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling subfunction.c...
+linking...
+Program Size: Code=14534 RO-data=806 RW-data=60 ZI-data=1836  
+FromELF: creating hex file...
+"YT32B1_STM32F103_demo.axf" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+compiling subfunction.c...
+linking...
+Program Size: Code=14534 RO-data=806 RW-data=60 ZI-data=1836  
+FromELF: creating hex file...
+"YT32B1_STM32F103_demo.axf" - 0 Error(s), 0 Warning(s).
