@@ -42,22 +42,33 @@ int main (void){//主程序
 				while(GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_B));
 				
 			}
-			if(MENU==0)
+			if(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_C))
+			{
+				MENU=2;
+				while(GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_C));
+			}
+			if(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_D))
+			{
+			 	MENU=3;
+				while(GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_D));
+				
+			}
+			if(MENU==0)		 //菜单0，显示年月日
 			{
 			TM1640_display(0,ryear%100/10);	//年
 			TM1640_display(1,ryear%100%10+10);
-			TM1640_display(2,21);	//无显示
+			TM1640_display(2,20);	//无显示
 			TM1640_display(3,rmon/10);	//月
 			TM1640_display(4,rmon%10+10);
-			TM1640_display(5,21);	//无显示
+			TM1640_display(5,20);	//无显示
 			TM1640_display(6,rday/10);	//天
 			TM1640_display(7,rday%10+10);
 		
 			}
-			if(MENU==1)
+			if(MENU==1)			//菜单1，显示时分秒
 			{
-			TM1640_display(0,21);	//无显示
-			TM1640_display(1,21);
+			TM1640_display(0,20);	//无显示
+			TM1640_display(1,20);
 			TM1640_display(2,rhour/10); //时
 			TM1640_display(3,rhour%10+10);
 			TM1640_display(4,rmin/10);	//分
@@ -66,8 +77,21 @@ int main (void){//主程序
 			TM1640_display(7,rsec%10);
 			}
 
+			if(MENU==2)		 //菜单2，显示设置时间
+			{
+			TM1640_display(0,21);	//显示S
+			TM1640_display(1,22);   //显示E
+			TM1640_display(2,20);	//无显示
+			TM1640_display(3,20);
+			TM1640_display(4,20);	
+			TM1640_display(5,20);
+			TM1640_display(6,20); 
+			TM1640_display(7,20);
+
+		
+			}
+
 		}
-		delay_ms(200);
 	}
 }
 
