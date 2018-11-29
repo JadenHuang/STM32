@@ -51,6 +51,30 @@ void Set_time_beep(void){ //设置时间时蜂鸣器响一声
 	}
 
 }
+void Set_time_comple_beep(void){ //设置时间时完成响声
+	u16 i;
+	for(i=0;i<80;i++){
+		GPIO_WriteBit(BUZZERPORT,BUZZER,(BitAction)(0)); //蜂鸣器接口输出0
+		delay_us(500); //延时		
+		GPIO_WriteBit(BUZZERPORT,BUZZER,(BitAction)(1)); //蜂鸣器接口输出高电平1
+		delay_us(500); //延时		
+	}
+	delay_ms(30);
+	for(i=0;i<80;i++){
+		GPIO_WriteBit(BUZZERPORT,BUZZER,(BitAction)(0)); //蜂鸣器接口输出0
+		delay_us(300); //延时		
+		GPIO_WriteBit(BUZZERPORT,BUZZER,(BitAction)(1)); //蜂鸣器接口输出高电平1
+		delay_us(300); //延时		
+	}
+	delay_ms(30);
+	for(i=0;i<80;i++){
+		GPIO_WriteBit(BUZZERPORT,BUZZER,(BitAction)(0)); //蜂鸣器接口输出0
+		delay_us(100); //延时		
+		GPIO_WriteBit(BUZZERPORT,BUZZER,(BitAction)(1)); //蜂鸣器接口输出高电平1
+		delay_us(100); //延时		
+	}
+
+}
 
 uc16 music1[78]={ //音乐1的数据表（奇数是音调，偶数是长度）
 330,750,

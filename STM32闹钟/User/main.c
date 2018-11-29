@@ -22,35 +22,63 @@
 #include "touch_key.h"
 #include "buzzer.h"
 #include "flash.h"
+#include "led.h"
+
+#include "lm75a.h"
 
 
 
-
-int main (void){//主程序
-	u8 clock_time;
-	u8 MENU=0; //菜单选项
-	u8 alarn_number;
-	u8 settimebit=0;   //设置时间标志位
-	u16 settime;	   //设置时闪烁时间
+int main (void)	 		 //主程序
+{
+	u8 buffer[3];
+	u8 setmode=1;		 //让设置模式为时间设定
+	u16 settime;	     //设置时闪烁时间
 	u16 i;
+	u16 First_clock=0;
+	u16 tm;
+	u8 clock_time;
+	u8 MENU=0; 			 //菜单选项
+	u8 alarn_number=1;	 //闹钟
+	u8 settimebit=0;     //设置时间标志位
 	RCC_Configuration(); //系统时钟初始化 
-	RTC_Config();  //RTC初始化
-	TM1640_Init(); //TM1640初始化
-	TOUCH_KEY_Init(); //初始化触摸按键
-	BUZZER_Init();
+	RTC_Config();        //RTC初始化
+	TM1640_Init();       //TM1640初始化
+	TOUCH_KEY_Init();    //初始化触摸按键
+	BUZZER_Init();		 //初始化蜂鸣片
+	I2C_Configuration();//I2C初始化
+	LED_Init();//初始化LED
 	RTC_Get();
-	Set_time_beep();
-	for(i=0;i<8;i++)
+	Set_time_beep();    //设置时间响声
+	First_clock=FLASH_R(FLASH_START_ADDR+20);
+//	if(First_clock!=0)
+//	{
+//		for(i=0;i<8;i++)	//读取Flash中存取的闹钟
+//		{
+//			alarn_hour[i]=8;
+//			alarn_min[i]=8;
+//		}
+//		Alarn_FLASH_W();
+//		FLASH_W((FLASH_START_ADDR+20),0);	
+//		GPIO_WriteBit(LEDPORT,LED1,(BitAction)(1)); //LED控制
+//	}
+
+
+	for(i=0;i<8;i++)	//读取Flash中存取的闹钟
 	{
 		u16 t;
 		t=FLASH_R(FLASH_START_ADDR+i*2);//从指定页的地址读FLASH	
 		alarn_hour[i]=t/0x100;
 		alarn_min[i]=t%0x100;
 	}
+	GPIO_WriteBit(LEDPORT,LED2,(BitAction)(1)); //LED控制	
+	
 
-	while(1){
 
-		if(settimebit==0) //判断是否进入时间设置
+
+
+	while(1){			   //进入主循环
+
+		if(settimebit==0) //判断标志位是否进入时间设置
 		{
 			RTC_Get();
 			if(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_A))
@@ -73,62 +101,146 @@ int main (void){//主程序
 				Set_time_beep();
 				while(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_C));
 			}
-			if(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_D))
-			{
-			 	MENU=9;
-				Set_time_beep();
-				while(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_D));
-				
-			}		
+//			if(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_D))
+//			{
+//			 	MENU=9;
+//				Set_time_comple_beep();
+//				while(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_D));
+//				
+//			}		
 		}
-
-			if(MENU==0)		 //菜单0，显示年月日
+//-----------------------------------------------------------------
+//菜单0，显示年月日
+//-----------------------------------------------------------------
+			if(MENU==0)		
 			{
-			TM1640_display(0,ryear%100/10);	//年
-			TM1640_display(1,ryear%100%10+10);
-			TM1640_display(2,20);	//无显示
-			TM1640_display(3,rmon/10);	//月
-			TM1640_display(4,rmon%10+10);
-			TM1640_display(5,20);	//无显示
-			TM1640_display(6,rday/10);	//天
-			TM1640_display(7,rday%10+10);
+				TM1640_display(0,ryear%100/10);	//年
+				TM1640_display(1,ryear%100%10+10);
+				TM1640_display(2,20);	//无显示
+				TM1640_display(3,rmon/10);	//月
+				TM1640_display(4,rmon%10+10);
+				TM1640_display(5,20);	//无显示
+				TM1640_display(6,rday/10);	//天
+				TM1640_display(7,rday%10+10);
+	
+				delay_ms(10);
+				tm++;
+				if(tm>300)
+				{
+					MENU=1;
+					tm=0;
+				}
 		
 			}
-			if(MENU==1)			//菜单1，显示时分秒
+
+//-----------------------------------------------------------------
+//菜单1，显示时分秒
+//-----------------------------------------------------------------
+			if(MENU==1)			
 			{
-			TM1640_display(0,20);	//无显示
-			TM1640_display(1,20);
-			TM1640_display(2,rhour/10); //时
-			TM1640_display(3,rhour%10+10);
-			TM1640_display(4,rmin/10);	//分
-			TM1640_display(5,rmin%10+10);
-			TM1640_display(6,rsec/10); //秒
-			TM1640_display(7,rsec%10);
-			}
-			if(MENU==2)			//菜单2，显示温度
-			{
+				TM1640_display(0,20);	//无显示
+				TM1640_display(1,20);
+				TM1640_display(2,rhour/10); //时
+				TM1640_display(3,rhour%10+10);
+				TM1640_display(4,rmin/10);	//分
+				TM1640_display(5,rmin%10+10);
+				TM1640_display(6,rsec/10); //秒
+				TM1640_display(7,rsec%10);
+	
+	
+				delay_ms(10);
+				tm++;
+				if(tm>300)
+				{
+					MENU=2;
+					tm=0;
+				}
 
 			}
+//-----------------------------------------------------------------
+//菜单2，显示温度
+//-----------------------------------------------------------------
+			if(MENU==2)			
+			{
+				LM75A_GetTemp(buffer); //读取LM75A的温度数据
+					
+				TM1640_display(0,buffer[1]/10); //显示数值
+				TM1640_display(1,buffer[1]%10+10);
+				TM1640_display(2,buffer[2]/10);
+				TM1640_display(3,buffer[2]%10);
+				TM1640_display(4,20);	//无显示
+				TM1640_display(5,20);
+				TM1640_display(6,20);	//无显示
+				TM1640_display(7,20);
+				delay_ms(10);
+				tm++;
+				if(tm>300)
+				{
+					MENU=0;
+					tm=0;
+				}
 
-			if(MENU==3)		 //菜单3，显示设置时间
-			{
-			settimebit=1;
-			if(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_C))
-			{
-				MENU=4;
-				Set_time_beep();
-				while(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_C));
 			}
-			TM1640_display(0,21);	//显示S
-			TM1640_display(1,22);   //显示E
-			TM1640_display(2,20);	//无显示
-			TM1640_display(3,20);
-			TM1640_display(4,20);	
-			TM1640_display(5,20);
-			TM1640_display(6,20); 
-			TM1640_display(7,20);	
+//-----------------------------------------------------------------
+//菜单3，显示设置时间
+//-----------------------------------------------------------------
+			if(MENU==3)		 
+			{
+				settimebit=1;
+				if(setmode==1)
+				{
+					
+					if(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_D))
+					{
+						MENU=4;
+						Set_time_beep();
+						while(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_D));
+					}
+					if(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_B))
+					{
+						setmode=2;
+						Set_time_beep();
+						while(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_B));
+					}
+					TM1640_display(0,21);	//显示S
+					TM1640_display(1,22);   //显示E
+					TM1640_display(2,20);	//无显示
+					TM1640_display(3,26);
+					TM1640_display(4,20);	
+					TM1640_display(5,20);
+					TM1640_display(6,20); 
+					TM1640_display(7,20);				
+				}
+				if(setmode==2)
+				{
+					if(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_D))
+					{
+						MENU=9;
+						Set_time_beep();
+						while(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_D));
+					}
+					if(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_A))
+					{
+						setmode=1;
+						Set_time_beep();
+						while(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_A));
+					}
+					TM1640_display(0,21);	//显示S
+					TM1640_display(1,22);   //显示E
+					TM1640_display(2,20);	//无显示
+					TM1640_display(3,27);
+					TM1640_display(4,20);	
+					TM1640_display(5,20);
+					TM1640_display(6,20); 
+					TM1640_display(7,20);				
+				}
+	
 			}
-			if(MENU==4)		 //菜单4，设置年份
+
+//-----------------------------------------------------------------
+//菜单4，设置年份
+//-----------------------------------------------------------------
+			if(MENU==4)		 
 			{
 				settimebit=1;  //将设置时间标志位置置1，按键进入时间设定
 
@@ -166,7 +278,7 @@ int main (void){//主程序
 				 	settimebit=0; 
 					MENU=0;
 					RTC_Set(ryear,rmon, rday, rhour, rmin, rsec);
-					Set_time_beep();
+					Set_time_comple_beep();
 					while(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_D));
 					
 				}
@@ -199,7 +311,11 @@ int main (void){//主程序
 				settime++;
 			
 			}
- 			if(MENU==5)		 //菜单5，设置月份
+
+//-----------------------------------------------------------------
+//菜单5，设置月份
+//-----------------------------------------------------------------
+ 			if(MENU==5)		 
 			{
 				settimebit=1;  //将设置时间标志位置置1，按键进入时间设定
 				if(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_C))
@@ -236,7 +352,7 @@ int main (void){//主程序
 				 	settimebit=0; 
 					MENU=0;
 					RTC_Set(ryear,rmon, rday, rhour, rmin, rsec);
-					Set_time_beep();
+					Set_time_comple_beep();
 					while(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_D));
 					
 				}
@@ -269,7 +385,10 @@ int main (void){//主程序
 				settime++;
 			
 			}
-			if(MENU==6)		 //菜单6，设置日期
+//-----------------------------------------------------------------
+//菜单6，设置日期
+//-----------------------------------------------------------------
+			if(MENU==6)		 
 			{
 				settimebit=1;  //将设置时间标志位置置1，按键进入时间设定
 				if(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_C))
@@ -306,7 +425,7 @@ int main (void){//主程序
 				 	settimebit=0; 
 					MENU=0;
 					RTC_Set(ryear,rmon, rday, rhour, rmin, rsec);
-					Set_time_beep();
+					Set_time_comple_beep();
 					while(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_D));
 					
 				}
@@ -340,7 +459,10 @@ int main (void){//主程序
 				settime++;
 			
 			}
-			if(MENU==7)		 //菜单7，设置小时
+//-----------------------------------------------------------------
+//菜单7，设置小时
+//-----------------------------------------------------------------
+			if(MENU==7)		 
 			{
 				settimebit=1;  //将设置时间标志位置置1，按键进入时间设定
 				if(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_C))
@@ -379,7 +501,7 @@ int main (void){//主程序
 				 	settimebit=0; 
 					MENU=0;
 					RTC_Set(ryear,rmon, rday, rhour, rmin, rsec);
-					Set_time_beep();
+					Set_time_comple_beep();
 					while(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_D));
 					
 				}
@@ -412,7 +534,10 @@ int main (void){//主程序
 				settime++;
 			
 			}
-			if(MENU==8)		 //菜单7，设置分钟
+//-----------------------------------------------------------------
+//菜单7，设置分钟
+//-----------------------------------------------------------------
+			if(MENU==8)		 
 			{
 				settimebit=1;  //将设置时间标志位置置1，按键进入时间设定
 				if(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_A))  //按A键分钟减1
@@ -445,7 +570,7 @@ int main (void){//主程序
 				 	settimebit=0; 
 					MENU=0;
 					RTC_Set(ryear,rmon, rday, rhour, rmin, rsec);
-					Set_time_beep();
+					Set_time_comple_beep();
 					while(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_D));
 					
 				}
@@ -479,14 +604,17 @@ int main (void){//主程序
 				settime++;
 			
 			}
-			if(MENU==9)		 //菜单9，显示哪个闹钟
+//-----------------------------------------------------------------
+//菜单9，显示哪个闹钟
+//-----------------------------------------------------------------
+			if(MENU==9)		 
 			{
 				settimebit=1;  //将设置时间标志位置置1，按键进入闹钟设定
 				if(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_D))
 				{
 					MENU=0;
-					Set_time_beep();
 					settimebit=0;  //将设置时间标志位置置1，按键进入闹钟设定
+					Set_time_comple_beep();
 					while(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_D));
 				}
 				if(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_A))  //按A键分钟减1
@@ -549,14 +677,16 @@ int main (void){//主程序
 				settime++;
 
 			}
-
-			if(MENU==10)		 //菜单10，显示闹钟时
+//-----------------------------------------------------------------
+//菜单10，显示闹钟时
+//-----------------------------------------------------------------
+			if(MENU==10)		 
 			{
 				settimebit=1;  //将设置时间标志位置置1，按键进入闹钟设定
 				if(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_D))
 				{
 					MENU=0;
-					Set_time_beep();
+					Set_time_comple_beep();
 					settimebit=0;  //将设置时间标志位置置1，按键进入闹钟设定
 					Alarn_FLASH_W();
 					while(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_D));
@@ -613,7 +743,7 @@ int main (void){//主程序
  				TM1640_display(0,24); //A
 				TM1640_display(1,25); //L
 
-				TM1640_display(2,1);	//无显示
+				TM1640_display(2,alarn_number);	//无显示
 				TM1640_display(3,20);
 	
 				TM1640_display(6,alarn_min[alarn_number-1]/10); //闹钟分
@@ -621,6 +751,9 @@ int main (void){//主程序
 				settime++;
 
 			}
+//-----------------------------------------------------------------
+//菜单11，显示闹钟分
+//-----------------------------------------------------------------
 			if(MENU==11)		 //菜单11，显示闹钟分
 			{
 				settimebit=1;  //将设置时间标志位置置1，按键进入闹钟设定
@@ -633,7 +766,7 @@ int main (void){//主程序
 				if(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_D))
 				{
 					MENU=0;
-					Set_time_beep();
+					Set_time_comple_beep();
 					settimebit=0;  //将设置时间标志位置置1，按键进入闹钟设定
 					Alarn_FLASH_W();
 					while(!GPIO_ReadInputDataBit(TOUCH_KEYPORT,TOUCH_KEY_D));
@@ -682,7 +815,7 @@ int main (void){//主程序
  				TM1640_display(0,24); //A
 				TM1640_display(1,25); //L
 
-				TM1640_display(2,1);	//无显示
+				TM1640_display(2,alarn_number);	//无显示
 				TM1640_display(3,20);
 
 
